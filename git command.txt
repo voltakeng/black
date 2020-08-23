@@ -1,0 +1,19 @@
+echo "# <repo.name> >> README.md 
+git init 
+git add READ.md
+git commit -m "comment"
+git remote add origin https://github.com/voltakeng/volta.git
+git remote set-url origin https:/github.com/voltakeng/alora.git 
+
+git push -u origin master 
+git push 
+
+git pull origin
+git pull
+
+git rm file1.txt
+git commit -m "remove file1.txt"
+git rm --cached file1.txt 
+git commit -m "only remove in repo"
+
+git clean -dfx
