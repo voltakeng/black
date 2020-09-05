@@ -1,9 +1,10 @@
 #define ena 5
-#define in1 6
-#define in2 7
-#define enb 11
-#define in3 9
-#define in4 10
+#define in1 7
+#define in2 6
+
+#define in3 8
+#define in4 9
+#define enb 10
 
 #include <ArduinoHardware.h>
 #include <ros.h> 
@@ -11,8 +12,8 @@
 #include <std_msgs/Float32.h> 
 #include <Encoder.h>
 
-Encoder myEncL(2, 27);
-Encoder myEncR(19, 23);
+Encoder myEncL(2, 3);
+Encoder myEncR(12, 13);
 long oldPositionL  = 0;
 long oldPositionR  = 0;
 ros::NodeHandle nh;
@@ -73,6 +74,8 @@ void setup()
 {
   pinMode(ena,OUTPUT);  pinMode(in1,OUTPUT); pinMode(in2,OUTPUT);
   pinMode(enb,OUTPUT);  pinMode(in3,OUTPUT); pinMode(in4,OUTPUT);
+  pinMode(2,INPUT);  pinMode(3,INPUT);
+  pinMode(12,INPUT);  pinMode(13,INPUT);
   
 //  pinMode(42,OUTPUT); 
 //  digitalWrite(42,1); delay(100);

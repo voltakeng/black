@@ -5,15 +5,15 @@ import cv2
 import numpy as np 
 from sensor_msgs.msg import Image 
 from geometry_msgs.msg import Twist 
-from move_robot import MoveKobuki 
+from move_robot import MoveBlack 
 from cv_bridge import CvBridge, CvBridgeError 
 from pid_control import PID 
 
 class PID_Movement(object):
     def __init__(self):
-        self.image_sub = rospy.Subscriber('/camere/rgb/image_raw', Image, self.camera_callback)
+        self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.camera_callback)
         self.bridge_object = CvBridge() 
-        self.move_robot_object = MoveKobuki() 
+        self.move_robot_object = MoveBlack() 
 
         setPoint_value = 0.0 
         state_value = 0.0 
@@ -28,9 +28,9 @@ class PID_Movement(object):
         height, width, channels = cv_image.shape 
         descentre = 160 
         rows_to_watch = 20 
-        crop_image = cv_image[(height)/(2+descentre):(height)/(2+descentre+rows_to_watch)] 
+        crop_image = cv_image[(height)/2+descentre:(height)/2+(descentre+rows_to_watch)][1:width]
 
-        hsv = cv2.cvtColor(crop_image, cv2.COLOR_BGR2HSV) 
+	hsv = cv2.cvtColor(crop_image, cv2.COLOR_BGR2HSV)
 
         upper_colour = np.array([20, 100, 100])
         lower_colour = np.array([50, 255, 255])
@@ -70,7 +70,7 @@ class PID_Movement(object):
         self.move_robot_object.clean_class() 
         cv2.destroyAllWIndows() 
     
-def main() 
+def main(): 
     rospy.init_node('PID_movement')
     pid_movement_object = PID_Movement()
 
