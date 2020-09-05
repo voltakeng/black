@@ -5,20 +5,17 @@
 #define in3 9
 #define in4 10
 
-#include <RedBot.h>
 #include <ArduinoHardware.h>
 #include <ros.h> 
 #include <geometry_msgs/Twist.h> 
 #include <std_msgs/Float32.h> 
-//#include <Encoder.h>
+#include <Encoder.h>
 
-//Encoder myEncL(2, 27);
-//Encoder myEncR(19, 23);
-RedBotEncoder encoder = RedBotEncoder(A1,A0);
+Encoder myEncL(2, 27);
+Encoder myEncR(19, 23);
 long oldPositionL  = 0;
 long oldPositionR  = 0;
 ros::NodeHandle nh;
-
 
 geometry_msgs::Twist msg;
 std_msgs::Float32 encL_msg;
@@ -29,8 +26,6 @@ ros::Publisher EncR("Enc_R", &encR_msg);
 
 long newPositionL;
 long newPositionR;
-
-
   
 void roverCallBack(const geometry_msgs::Twist& cmd_vel)
 {
@@ -93,10 +88,8 @@ void setup()
 
 void loop()
 {
-//    newPositionL = myEncL.read();
-//    newPositionR = myEncR.read()*-1;
-    newPositionL = encoder.getTicks(LEFT);
-    newPositionR = encoder.getTicks(RIGHT)*-1;
+    newPositionL = myEncL.read();
+    newPositionR = myEncR.read()*-1;
   
   if (newPositionL != oldPositionL) {
       oldPositionL = newPositionL;
@@ -108,9 +101,8 @@ void loop()
   }
   
   if((newPositionL>1000000)||(newPositionR>1000000)||(newPositionL<-1000000)||(newPositionR<-1000000)){
-//    myEncL.write(0);
-//    myEncR.write(0);
-      encoder.clearEnc(BOTH);  
+      myEncL.write(0);
+      myEncR.write(0);
   }
   
   EncL.publish( &encL_msg );
