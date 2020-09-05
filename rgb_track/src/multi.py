@@ -118,7 +118,6 @@ def main():
     rate = rospy.Rate(5)
     ctrl_c = False
     def shutdownhook():
-        # works better than the rospy.is_shut_down()
         line_follower_object.clean_up()
         rospy.loginfo("shutdown time!")
         ctrl_c = True

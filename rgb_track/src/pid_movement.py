@@ -38,7 +38,7 @@ class PID_Movement(object):
 
         m = cv2.moments(mask, False) 
         try:
-            cx, cy = m['10']/m['00'], m['01']/m['00'] 
+            cx, cy = m['m10']/m['m00'], m['m01']/m['m00'] 
         except ZeroDivisionError:
             cx, cy = height/2, width/2 
 
@@ -74,13 +74,16 @@ def main():
     rospy.init_node('PID_movement')
     pid_movement_object = PID_Movement()
 
-    rate
+    rate = rospy.Rate(5)
     ctrl_c =  False 
     def shutdownhook(): 
         rospy.loginfo('Shutdown time!')
         ctrl_c  = True 
     
     rospy.on_shutdown(shutdownhook) 
+
+    while not ctrl_c:
+	rate.sleep()
     
 if __name__ == '__main__': 
     main() 
