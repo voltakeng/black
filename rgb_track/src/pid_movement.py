@@ -11,13 +11,14 @@ from pid_control import PID
 
 class PID_Movement(object):
     def __init__(self):
+	setPoint_value = 0.0 
+        state_value = 0.0 
+	rospy.loginfo(1)
+        self.pid_object = PID(setPoint_value, state_value) 
+	rospy.loginfo(2)
         self.image_sub = rospy.Subscriber('/usb_cam/image_raw', Image, self.camera_callback)
         self.bridge_object = CvBridge() 
         self.move_robot_object = MoveBlack() 
-
-        setPoint_value = 0.0 
-        state_value = 0.0 
-        self.pid_object = PID(setPoint_value, state_value) 
 
     def camera_callback(self, data):
         try:
